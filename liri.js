@@ -22,7 +22,11 @@ if (whichAPI === "my-tweets") {
     
     client.get('statuses/user_timeline', { screen_name: screenName, count: numTweets }, function (error, tweets, response) {
         if (error) throw error;
-        console.log(tweets[0].text); // The favorites.  
+        console.log(`\n========================================\n   Latest tweets from @${screenName}\n========================================\n`);
+        for (var i = 0; i < 20 && tweets[i]; i++) {
+            console.log(`On ${tweets[i].created_at}:\n   "${tweets[i].text}"\n`);
+        }
+        // console.log(`====================`);
     });
 
     // var screenName = "liri_reads_sux"
