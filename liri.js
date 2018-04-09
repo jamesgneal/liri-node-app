@@ -100,7 +100,7 @@ function loadSpotifyTrack(song) {
                     var songInfo = data.tracks.items[0];
                     console.log(`\n * * * Track info for "${songInfo.name}" * * * \nArtist: ${songInfo.artists[0].name}\nSong Title: ${songInfo.name}\nListen on Spotify: ${songInfo.external_urls.spotify}\nAlbum: ${songInfo.album.name}\n`);
                 
-                    fs.appendFile("log.txt", `\n * * * Track info for "${data.name}" * * * \nArtist: ${data.artists[0].name}\nSong Title: ${data.name}\nListen on Spotify: ${data.external_urls.spotify}\nAlbum: ${data.album.name}\n`, function (err) {
+                    fs.appendFile("log.txt", `\n * * * Track info for "${songInfo.name}" * * * \nArtist: ${songInfo.artists[0].name}\nSong Title: ${songInfo.name}\nListen on Spotify: ${songInfo.external_urls.spotify}\nAlbum: ${songInfo.album.name}\n`, function (err) {
                         if (err) {
                             return console.log(err);
                         }
