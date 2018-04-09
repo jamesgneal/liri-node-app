@@ -41,20 +41,41 @@ if (whichAPI === "my-tweets") {
 if (whichAPI === "spotify-this-song") {
     console.log(`receiving spotify input ${searchParam}`);
 
-    // User's song to look up
-    var userSong = searchParam;
+    if (!searchParam) {
+        // If user doesn't provide a song
+        var userSong = "The Sign";
+        
+        // Connect to spotify
+        spotify
+            .request('https://api.spotify.com/v1/tracks/3DYVWvPh3kGwPasp7yjahc')
+            .then(function (data) {
+                console.log(`\n * * * Track info for "${data.name}" * * * \n`);
+                console.log(`Artist: ${data.artists[0].name}\nSong Title: ${data.name}\nListen on Spotify: ${data.external_urls.spotify}\nAlbum: ${data.album.name}\n`);
 
-    // Connect to spotify
-    spotify.search({
-        type: 'track',
-        query: userSong
-    }, function (err, data) {
-        if (err) {
-            return console.log('Error occurred: ' + err);
-        }
+            })
+            .catch(function (err) {
+                console.error('Error occurred: ' + err);
+            });
 
-        console.log(data);
-    });
+    } else {
+        // User's song to look up
+        var userSong = searchParam;
+
+        // Connect to spotify
+        spotify
+            .search({
+                type: 'track',
+                query: userSong
+            }, function (err, data) {
+                if (err) {
+                    return console.log('Error occurred: ' + err);
+                } else {
+                    var songInfo = data.tracks.items[0];
+                    console.log(`\n * * * Track info for "${songInfo.name}" * * * \n`);
+                    console.log(`Artist: ${songInfo.artists[0].name}\nSong Title: ${songInfo.name}\nListen on Spotify: ${songInfo.external_urls.spotify}\nAlbum: ${songInfo.album.name}\n`);
+                }
+            });
+    }
 }
 
 
