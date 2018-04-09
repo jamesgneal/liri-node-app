@@ -1,3 +1,4 @@
+// API keys and connections
 var dotenv = require("dotenv").config();
 var keys = require("./keys.js");
 var Twitter = require("twitter");
@@ -14,31 +15,24 @@ var searchParam = nodeArgs[3];
 if (whichAPI === "my-tweets") {
     console.log(`receiving twitter input`);
 
-    // connect to twitter API
-
+    // Twitter user to look up
     var screenName = "liri_reads_sux"
+    // Number of tweets to return
     var numTweets = 20;
-    // var queryURL = `https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=${screenName}&count=${numTweets}`;
-    
-    client.get('statuses/user_timeline', { screen_name: screenName, count: numTweets }, function (error, tweets, response) {
+
+    // Connect to twitter
+    client.get('statuses/user_timeline', {
+        screen_name: screenName,
+        count: numTweets
+    }, function (error, tweets, response) {
         if (error) throw error;
+
+        // Display latest tweets from user's screenname including timestamp
         console.log(`\n========================================\n   Latest tweets from @${screenName}\n========================================\n`);
         for (var i = 0; i < 20 && tweets[i]; i++) {
             console.log(`On ${tweets[i].created_at}:\n   "${tweets[i].text}"\n`);
         }
-        // console.log(`====================`);
     });
-
-    // var screenName = "liri_reads_sux"
-    // var numTweets = 20;
-    // var queryURL = `https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=${screenName}&count=${numTweets}`;
-
-    // $.ajax({
-    //     url: queryURL,
-    //     method: 'GET'
-    // }).then(function (response) {
-    //     console.log(response);
-    // });
 }
 
 
@@ -46,6 +40,21 @@ if (whichAPI === "my-tweets") {
 // SPOTIFY =================================================================================================
 if (whichAPI === "spotify-this-song") {
     console.log(`receiving spotify input ${searchParam}`);
+
+    // User's song to look up
+    var userSong = searchParam;
+
+    // Connect to spotify
+    spotify.search({
+        type: 'track',
+        query: userSong
+    }, function (err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+
+        console.log(data);
+    });
 }
 
 
